@@ -28,21 +28,18 @@
         let productos = [];
 
         document.getElementById('myForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita que la página se recargue
+            event.preventDefault();
 
-            // Obtiene los valores de los campos del formulario
             const name = document.getElementById('name').value;
             const value = parseFloat(document.getElementById('value').value) || 0;
             const cant = parseInt(document.getElementById('cant').value) || 0;
             const valor_producto = value * cant;
             
-            // Agrega el producto al array
             const producto = {name, value, cant, valor_producto};
             productos.push(producto);
             total += valor_producto;
             actualizarLista();
 
-            // Limpia los campos del formulario
             document.getElementById('myForm').reset();
         });
 
@@ -53,7 +50,6 @@
                 const li = document.createElement('li');
                 li.textContent = `Nombre: ${producto.name}, Valor: ${producto.value}, Cantidad: ${producto.cant}, Subtotal: ${producto.valor_producto}`;
                 
-                // Crear botón de eliminar
                 const botonEliminar = document.createElement('button');
                 botonEliminar.textContent = 'Eliminar';
                 botonEliminar.onclick = function() {
@@ -64,7 +60,6 @@
                 lista.appendChild(li);
             });
             
-            // Actualiza el total
             document.getElementById('totalLabel').textContent = `Total = ${total}`;
         }
 
