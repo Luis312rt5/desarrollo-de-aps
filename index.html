@@ -6,7 +6,6 @@
     <title>Formulario y DOM</title>
 </head>
 <body>
-
     <form id="myForm">
         <label for="name">Producto:</label>
         <input type="text" id="name" name="name" required>
@@ -22,9 +21,11 @@
 
     <h2>Recibo:</h2>
     <ul id="formData"></ul>
+    <h2 id="totalLabel">Total = 0</h2>
 
     <script>
         let total = 0;
+        let productos = [];
 
         document.getElementById('myForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Evita que la página se recargue
@@ -33,30 +34,45 @@
             const name = document.getElementById('name').value;
             const value = parseFloat(document.getElementById('value').value) || 0;
             const cant = parseInt(document.getElementById('cant').value) || 0;
-
-            // Calcula el total del producto
             const valor_producto = value * cant;
             
-            // Acumula el total
+            // Agrega el producto al array
+            const producto = {name, value, cant, valor_producto};
+            productos.push(producto);
             total += valor_producto;
-
-            // Crea el texto a mostrar en la lista
-            const li = document.createElement('li');
-            li.textContent = `Nombre: ${name}, Valor: ${value}, Cantidad: ${cant}, Subtotal: ${valor_producto}`;
-
-            // Agrega el producto a la lista
-            document.getElementById('formData').appendChild(li);
-
-            // Actualiza el label del total
-            document.getElementById('totalLabel').textContent = `Total = ${total}`;
+            actualizarLista();
 
             // Limpia los campos del formulario
-            document.getElementById('name').value = '';
-            document.getElementById('value').value = '';
-            document.getElementById('cant').value = '';
+            document.getElementById('myForm').reset();
         });
 
+        function actualizarLista() {
+            const lista = document.getElementById('formData');
+            lista.innerHTML = '';
+            productos.forEach((producto, index) => {
+                const li = document.createElement('li');
+                li.textContent = `Nombre: ${producto.name}, Valor: ${producto.value}, Cantidad: ${producto.cant}, Subtotal: ${producto.valor_producto}`;
+                
+                // Crear botón de eliminar
+                const botonEliminar = document.createElement('button');
+                botonEliminar.textContent = 'Eliminar';
+                botonEliminar.onclick = function() {
+                    eliminarProducto(index);
+                };
+                
+                li.appendChild(botonEliminar);
+                lista.appendChild(li);
+            });
+            
+            // Actualiza el total
+            document.getElementById('totalLabel').textContent = `Total = ${total}`;
+        }
+
+        function eliminarProducto(index) {
+            total -= productos[index].valor_producto;
+            productos.splice(index, 1);
+            actualizarLista();
+        }
     </script>
-    <h2 id="totalLabel">Total = 0</h2>
 </body>
 </html>
