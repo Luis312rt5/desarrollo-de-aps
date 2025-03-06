@@ -1,0 +1,16 @@
+<form (submit)="agregarProducto(); $event.preventDefault()">
+    <label for="name">Producto:</label>
+    <input type="text" id="name" [(ngModel)]="name" required>
+    <br>
+  
+    <label for="value">Valor:</label>
+    <input type="number" id="value" [(ngModel)]="value" required>
+    <br>
+  
+    <label for="cant">Cantidad:</label>
+    <input type="number" id="cant" [(ngModel)]="cant" required>
+    <br>
+  
+    <button type="submit">Agregar</button>
+  </form>
+  
