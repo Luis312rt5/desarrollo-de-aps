@@ -1,0 +1,6 @@
+
+    <div *ngFor="let item of personajes">
+       <p>{{item.name}}</p>
+       <img [src]="item.image" [alt]="item.name" class="img-thumbnail">
+    </div>
+      <router-outlet/>
